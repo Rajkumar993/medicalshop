@@ -1,11 +1,13 @@
 import React from 'react'
 import './App.css'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Navbar } from './components/navbar/Navbar'
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { Home } from './components/home/Home';
+import { WishList } from './components/wishlist/WishList';
 
 
 function App() {
@@ -15,8 +17,11 @@ function App() {
     <div className=''>
     <BrowserRouter>
      <Navbar/>
-  
-</BrowserRouter>
+    <Routes>
+      <Route path='/' element={<Home/>}/>
+      <Route path='/wishlist' element={<WishList/>}/>
+    </Routes>
+  </BrowserRouter>
     </div>
 
     </>

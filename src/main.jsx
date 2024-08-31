@@ -5,6 +5,7 @@ import { ApolloClient, InMemoryCache,ApolloProvider } from '@apollo/client'
 import './index.css'
 import {Provider} from 'react-redux'
 import { Store } from './app/Store.jsx'
+
 const client =new ApolloClient({
   uri:"https://test.api.shop.strackit.com/graphql/",
   cache: new InMemoryCache()

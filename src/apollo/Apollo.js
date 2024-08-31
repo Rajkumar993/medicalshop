@@ -69,3 +69,17 @@ query Categories($filter: shop) {
   }
 }
 `
+export const GET_TOP_PRODUCT=gql`
+query TopProducts($filter: top) {
+  topProducts(filter: $filter) {
+    productImage {
+      image
+    }
+    category
+    description
+    discount
+    featureImage
+    name
+    prize
+  }
+}`
