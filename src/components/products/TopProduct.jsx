@@ -24,9 +24,21 @@ export const TopProduct = () => {
   useEffect(()=>{
     if(data){
   setTopProduct(data.topProducts)
+    }else{
+      // return <p>currently Unavailable</p>
     }
   },[data])
   console.log(topProduct)
+  if(loading) {
+    return (
+   <div className='w-full flex items-center h-screen justify-center '>
+   <div className='w-12 h-12 border border-3 rounded-full border-[#1d7264]  border-t-0 animate-spin'>
+   
+   
+   </div>
+   </div>
+    )
+   }
   return (
     <Box
     sx={{

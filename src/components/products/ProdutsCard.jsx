@@ -10,11 +10,16 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import { ADD_TO_CART } from '../../apollo/Mutation';
 import IconButton from '@mui/material/IconButton';
 
 
 
 import Stack from '@mui/material/Stack';
+import { useMutation } from '@apollo/client';
+import { useSelector } from 'react-redux';
+import { SHOP_ID } from '../../env';
+import { Link } from 'react-router-dom';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -27,8 +32,10 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 export const ProdutsCard = ({product,grid}) => {
   const [hovered, setHovered] = useState(false);
+  const {authState,userId}=useSelector(state=>state.auth) 
   const[heart,setHeart]=useState(false)
   const [open, setOpen] = React.useState(false);
+  const [mutateFunction, { data:Cartdata, loading:Cartloading, error:Carterror }] = useMutation(ADD_TO_CART)
  const[qty,setQty]=useState(1)
   const handleClickOpen = () => {
     setOpen(true);
@@ -55,7 +62,7 @@ className='hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,1
       />
       <CardContent >
         <Typography gutterBottom variant="h5"  component="div">
-         <p>{product.name}</p> 
+         <p className='text-[16px] mb-2'>{product.name}</p> 
          <p className='text-[16px] text-[#1d7264]'>₹{product.prize.toLocaleString()}</p>
         {grid && <div className='text-sm mt-4 mb-4'  dangerouslySetInnerHTML={{__html:product.description.slice(0,200)}}/>}
        
@@ -77,7 +84,27 @@ className='hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,1
       }}
       >
         <FaEye className='text-2xl  hover:text-[#1d7264] cursor-pointer  ' onClick={handleClickOpen} />
-        <FaShoppingCart className='text-2xl  hover:text-[#1d7264] cursor-pointer ' />
+       
+        <FaShoppingCart className='text-2xl  hover:text-[#1d7264] cursor-pointer ' onClick={()=>{
+          if(document.cookie == ''){
+            window.alert('Login to Continue');
+            return;
+          }
+          mutateFunction({
+            variables: {
+              userId,
+              productId: Number(product.id),
+              quantity: qty,
+              shopId: SHOP_ID,
+            },
+          }) .then(res=>(
+            alert("Added To Cart!")
+          )).catch(res=>(
+           alert("Item Already Exist!")
+          ))
+        }} />
+
+      
        {heart?<FaHeart onClick={()=>setHeart(true)} className='text-2xl text-[#1d7264]  cursor-pointer ' />:<FaRegHeart onClick={()=>setHeart(!heart)} className='text-2xl  hover:text-[#1d7264]  cursor-pointer ' />} 
       </Box>: null}
         </Typography>
@@ -102,7 +129,24 @@ className='hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,1
       }}
       >
         <FaEye className='text-2xl  hover:text-[#1d7264] cursor-pointer  ' onClick={handleClickOpen} />
-        <FaShoppingCart className='text-2xl  hover:text-[#1d7264] cursor-pointer ' />
+        <FaShoppingCart className='text-2xl  hover:text-[#1d7264] cursor-pointer 'onClick={()=>{
+          if(document.cookie == ''){
+            window.alert('Login to Continue');
+            return;
+          }
+          mutateFunction({
+            variables: {
+              userId,
+              productId: Number(product.id),
+              quantity: qty,
+              shopId: SHOP_ID,
+            },
+          }) .then(res=>(
+            alert("Added To Cart!")
+          )).catch(res=>(
+           alert("Item Already Exist!")
+          ))
+        }} />
        {heart?<FaHeart onClick={()=>setHeart(true)} className='text-2xl text-[#1d7264]  cursor-pointer ' />:<FaRegHeart onClick={()=>setHeart(!heart)} className='text-2xl  hover:text-[#1d7264]  cursor-pointer ' />} 
       </Box>
     )}
@@ -156,7 +200,24 @@ className='hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,1
               </div>
               <Stack direction="row" spacing={2}>
       
-             <Button variant="contained" color='success' sx={{width:200, height:50}} startIcon={<FaShoppingCart />}>
+             <Button variant="contained" color='success' sx={{width:200, height:50}} startIcon={<FaShoppingCart />} onClick={()=>{
+          if(document.cookie == ''){
+            window.alert('Login to Continue');
+            return;
+          }
+          mutateFunction({
+            variables: {
+              userId,
+              productId: Number(product.id),
+              quantity: qty,
+              shopId: SHOP_ID,
+            },
+          }) .then(res=>(
+            alert("Added To Cart!")
+          )).catch(res=>(
+           alert("Item Already Exist!")
+          ))
+        }}>
         Add To Cart
       </Button>
     </Stack>

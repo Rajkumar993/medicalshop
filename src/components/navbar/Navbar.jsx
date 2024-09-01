@@ -9,11 +9,13 @@ import HOST from '../../env';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { login } from '../../feature/Auth';
-import { useNavigate } from 'react-router-dom';
-export const Navbar = () => {
+import { Link, useNavigate } from 'react-router-dom';
+import { addCat } from '../../feature/CatSlice';
+export const Navbar = ({searchScroll}) => {
   const[showNav,setShowNav]=useState(false)
   const[showSearch,setShowSearch]=useState(false)
   const[showLogin,setShowLogin]=useState(false)
+  const [search,setSearch]=useState('')
   const navigate=useNavigate('')
   const dispatch=useDispatch()
   useEffect(()=>{
@@ -48,15 +50,20 @@ export const Navbar = () => {
       window.location.href = HOST;
     }
   }, [dispatch]);
+
   return (
     <>
-    <div className=' z-50 relative flex justify-between items-center px-5 py-5 mt-10 bg-white mx-20'>
-  <div className='text-4xl flex justify-center items-center'>logo</div>
+    <div className=' z-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] relative flex justify-between items-center px-5 py-5 mt-10 bg-white mx-20'>
+  <div className='text-4xl flex justify-center items-center'><Link to={'/'}>logo</Link></div>
   <div>
     <ul className='flex justify-between items-center gap-4'>
-      <li>Home</li>
-      <li>Products</li>
-      <li>Contact</li>
+    <Link to={'/'}><li>Home</li></Link> 
+    <li onClick={()=>{
+      navigate('/')
+      searchScroll()
+      }} className='cursor-pointer'>Products</li>
+    <li>Contact</li>
+  
       <li>Blog</li>
     </ul>
   </div>
@@ -71,10 +78,18 @@ export const Navbar = () => {
       autoComplete="off"
       className='flex'
     >
-      <TextField id="outlined-basic" label="Search" variant="outlined"  InputProps={{
+      <TextField id="outlined-basic" value={search} onChange={(e)=>{
+        setSearch(e.target.value)
+      }} label="Search" variant="outlined"  InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IoSearchOutline className='cursor-pointer text-xl' onClick={()=>setShowSearch(!showSearch)} />
+            <IoSearchOutline className='cursor-pointer text-xl' onClick={(e)=>{
+              e.preventDefault()
+              setShowSearch(!showSearch)
+              dispatch(addCat(search))
+              navigate('/')
+              searchScroll()
+            }} />
           </InputAdornment>
         ),
       }} />
@@ -97,23 +112,33 @@ export const Navbar = () => {
          <li className='cursor-pointer' onClick={()=>handleLogin()}>Register</li>
          <li className='cursor-pointer' onClick={()=>{
           if(Cookies.get('ualum')){
-  navigate('/wishlist')
+          navigate('/wishlist')
           }else{
             alert('please login to continue')
           }
          }}>WishList</li>
         </ul>}
         </li>
-      <li  className='text-xl  px-3 py-3  hover:bg-[#1d7264] hover:transition-all duration-500  hover:text-white shadow-[0_10px_22px_-5px_rgba(0,0,0,0.3)] ' ><IoCartOutline /></li>
+        <Link to={`${document.cookie?'/cart':'/'}`}><li onClick={()=>{
+          if(Cookies.get('ualum')){
+            navigate('/cart')
+          }else{
+            alert('login to continue')
+          }
+          
+          }} className='text-xl  px-3 py-3  hover:bg-[#1d7264] hover:transition-all duration-500  hover:text-white shadow-[0_10px_22px_-5px_rgba(0,0,0,0.3)] ' ><IoCartOutline /></li></Link>
     </ul>
   </div>
     </div>
     <div className={`flex fixed top-0 left-0   z-40 py-6 md:py-6  font-bold text-[16px] md:text-xl bg-white text-gray-600 items-center px-4 transition-all duration-1000 w-full md:px-32 justify-between shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${showNav?" translate-y-0 h-27 ":"h-0 -translate-y-44  overflow-hidden"}`}>
-  <div className='text-4xl flex justify-center items-center'>logo</div>
+  <div className='text-4xl flex justify-center items-center'><Link to={'/'}>logo</Link></div>
   <div>
     <ul className='flex justify-between items-center gap-4'>
-      <li>Home</li>
-      <li>Products</li>
+     <Link to={'/'}><li>Home</li></Link> 
+     <li onClick={()=>{
+      navigate('/')
+      searchScroll()
+      }} className='cursor-pointer'>Products</li>
       <li>Contact</li>
       <li>Blog</li>
     </ul>
@@ -129,14 +154,21 @@ export const Navbar = () => {
       autoComplete="off"
       className='flex'
     >
-      <TextField id="outlined-basic" label="Search" variant="outlined"  InputProps={{
+       <TextField id="outlined-basic" value={search} onChange={(e)=>{
+        setSearch(e.target.value)
+      }} label="Search" variant="outlined"  InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IoSearchOutline className='cursor-pointer text-xl' onClick={()=>setShowSearch(!showSearch)} />
+            <IoSearchOutline className='cursor-pointer text-xl' onClick={(e)=>{
+              e.preventDefault()
+              setShowSearch(!showSearch)
+              dispatch(addCat(search))
+              navigate('/')
+              searchScroll()
+            }} />
           </InputAdornment>
         ),
       }} />
-
     </Box>
           </p>
         </li>
@@ -162,7 +194,14 @@ export const Navbar = () => {
          }}>WishList</li>
         </ul>}
         </li>
-      <li  className='text-xl  px-3 py-3  hover:bg-[#1d7264] hover:transition-all duration-500  hover:text-white shadow-[0_10px_22px_-5px_rgba(0,0,0,0.3)] ' ><IoCartOutline /></li>
+        <Link to={`${document.cookie?'/cart':'/'}`}><li onClick={()=>{
+          if(Cookies.get('ualum')){
+            navigate('/cart')
+          }else{
+            alert('login to continue')
+          }
+          
+          }} className='text-xl  px-3 py-3  hover:bg-[#1d7264] hover:transition-all duration-500  hover:text-white shadow-[0_10px_22px_-5px_rgba(0,0,0,0.3)] ' ><IoCartOutline /></li></Link>
     </ul>
   </div>
     </div>

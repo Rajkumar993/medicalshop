@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { GET_PRODUCTS } from '../../apollo/Apollo';
@@ -10,12 +10,15 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { ProdutsCard } from './ProdutsCard';
 import { TopProduct } from './TopProduct';
-export const Products = () => {
+
+export const Products = ({searchRef}) => {
   const {authState,userId}=useSelector(state=>state.auth) 
   const {cat}=useSelector(state=>state.category) 
+  
   const[products,setProducts]=useState([]);
   const [view, setView] = React.useState('list');
 const[grid,setGrid]=useState(false)
+const[noProduct,setNoProduct]=useState(false)
   const handleChange = (event, nextView) => {
   
     setView(nextView);
@@ -52,10 +55,21 @@ if(cat=="All Products" &&data){
   setProducts(data.products); 
 }
 },[cat,data])
+useEffect(()=>{
+  if(error){
+    alert(error)
+  }
+},[error])
+useEffect(()=>{
+  if(products==''){
+    setNoProduct(true)
+  }else
+  setNoProduct(false)
+},[products])
 
   if(loading) {
     return (
-   <div className='w-full flex items-center h-screen justify-center'>
+   <div className='w-full flex items-center h-screen justify-center '>
    <div className='w-12 h-12 border border-3 rounded-full border-[#1d7264]  border-t-0 animate-spin'>
    
    
@@ -65,7 +79,7 @@ if(cat=="All Products" &&data){
    }
   return (
     <>
-    <div className='w-full pt-10 pl-32 '>
+    <div ref={searchRef} className='w-full pt-10 pl-32 '>
      <div className='flex items-center gap-80  relative'>
      <ToggleButtonGroup
       orientation="horizontal"
@@ -104,6 +118,7 @@ if(cat=="All Products" &&data){
       ))
     }
     </div>
+   {noProduct&& <p className='text-center text-2xl text-red-500'>Sorry No Such Products</p>}
     </>
   )
 }

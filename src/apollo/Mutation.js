@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+
 export const ADD_TO_CART = gql`
   # Increments a back-end counter and gets its resulting value
   mutation Cart(

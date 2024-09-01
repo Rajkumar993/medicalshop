@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Banner } from '../navbar/banner/Banner'
 import { Category } from '../category/Category'
 import { Products } from '../products/Products'
 
-export const Home = () => {
+export const Home = ({searchRef}) => {
+
   return (
     <>
       <div className='relative'>
@@ -11,7 +12,7 @@ export const Home = () => {
    
     </div>
     <Category/>
-    <Products/>
+    <Products searchRef={searchRef}/>
     </>
   
   )
