@@ -44,9 +44,10 @@ const[noProduct,setNoProduct]=useState(false)
     }
    
   },[data])
+
 useEffect(()=>{
 if(cat){
-
+ setmargin(false)
   setProducts(data.products.filter(pro=>pro.name.toLowerCase().includes(cat.toLowerCase())))
 
 }
@@ -58,7 +59,7 @@ if(cat=="All Products" &&data){
   setProducts(data.products); 
 
 }else{
-  setmargin(false)
+ 
 }
 },[cat,data])
 useEffect(()=>{
@@ -117,7 +118,7 @@ useEffect(()=>{
      </div>
      
     </div>
-    <div className={`grid md:mr-80 md:ml-32 ${grid?"mb-0":""} ${margin?"mb-0":"mb-[400px]"} mt-10 grid-cols-1 md:grid-cols-2     gap-7 items-center  place-items-center ${grid?"xl:grid-cols-1":"xl:grid-cols-3"}`}>
+    <div className={`grid md:mr-80 md:ml-32 ${grid?"mb-0":""}  ${margin?"mb-[0px]":"mb-[400px]"} mt-10 grid-cols-1 md:grid-cols-2     gap-7 items-center  place-items-center ${grid?"xl:grid-cols-1":"xl:grid-cols-3"}`}>
     {
       products.map(product=>(
            <ProdutsCard key={product.id} grid={grid} product={product}/>
