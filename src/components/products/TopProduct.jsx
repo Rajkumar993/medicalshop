@@ -9,8 +9,10 @@ import ListItem from '@mui/joy/ListItem';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import ListItemButton from '@mui/joy/ListItemButton';
 import Typography from '@mui/joy/Typography';
+import { Link } from 'react-router-dom'
 export const TopProduct = () => {
   const{userId}=useSelector(state=>state.auth)
+
   const[topProduct,setTopProduct]=useState([])
   const{data,loading,error}=useQuery(GET_TOP_PRODUCT,{
     variables:{
@@ -23,7 +25,7 @@ export const TopProduct = () => {
 
   useEffect(()=>{
     if(data){
-  setTopProduct(data.topProducts)
+  setTopProduct(data.topProducts.slice(0,5))
     }else{
       // return <p>currently Unavailable</p>
     }
@@ -41,6 +43,7 @@ export const TopProduct = () => {
    }
   return (
     <Box
+    
     sx={{
       flexGrow: 1,
       display: 'flex',
@@ -74,7 +77,7 @@ export const TopProduct = () => {
            return <ListItem>
             <Typography  className='border-b py-4 w-full'>
           <p className='flex  gap-4 items-center'>
-            <img className='w-20 h-20 object-cover' src={`https://s3.ap-south-1.amazonaws.com/business.strackit.com/${pro.featureImage}`} alt="" />
+          <img  className='w-20 h-20 object-cover' src={`https://s3.ap-south-1.amazonaws.com/business.strackit.com/${pro.featureImage}`} alt="" />
             <p className='text-sm flex flex-col gap-2'>
               {pro.name}
               <p>₹ {pro.prize.toLocaleString()}</p>

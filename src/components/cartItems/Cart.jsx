@@ -51,16 +51,16 @@ const handleDelete=()=>{
           <th scope="row" className="px-6 py-4 text-xl">
                  <MdClose className='cursor-pointer' onClick={()=>handleDelete()}/>
                 </th>
-                <th scope="row" className="px-6 py-4  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                   <img className='w-[150px] h-[150px] object-cover' src={`https://s3.ap-south-1.amazonaws.com/business.strackit.com/${item.featureImage}`} alt="" />
+                <th scope="row" className="md:px-6 md:py-4  font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                   <img className='md:w-[150px] w-32 h-32 md:h-[150px] object-cover' src={`https://s3.ap-south-1.amazonaws.com/business.strackit.com/${item.featureImage}`} alt="" />
                 </th>
-                <th scope="row" className="px-6 text-xl py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th scope="row" className="md:px-6 md:text-xl py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                    {item.name}
                 </th>
-                <td className="px-6 py-4 text-xl">
+                <td className="md:px-6 py-4 md:text-xl">
                 ₹{item.prize.toLocaleString()}
                 </td>
-                <td className="px-6 text-xl relative py-4 ">
+                <td className="px-6 md:text-xl relative py-4 ">
                 <div>
                 <button className='border w-10 py-4' onClick={()=>{
                    if(quantity){
@@ -76,7 +76,7 @@ const handleDelete=()=>{
                 </div>
                 { update && <Button variant="outlined" color='success' sx={{position:"absolute" ,bottom:10,right:60}} onClick={()=>handleQuantity()}>Update</Button>}
                 </td>
-                <td className="px-6 text-xl py-4">
+                <td className="md:px-6 md:text-xl py-4">
                 ₹{((item.prize*quantity).toLocaleString())}
                 </td>
                

@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../feature/Auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { addCat } from '../../feature/CatSlice';
-export const Navbar = ({searchScroll}) => {
+export const Navbar = ({searchScroll,blogScroll}) => {
   const[showNav,setShowNav]=useState(false)
   const[showSearch,setShowSearch]=useState(false)
   const[showLogin,setShowLogin]=useState(false)
@@ -53,10 +53,10 @@ export const Navbar = ({searchScroll}) => {
 
   return (
     <>
-    <div className=' z-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] relative flex justify-between items-center px-5 py-5 mt-10 bg-white mx-20'>
-  <div className='text-4xl flex justify-center items-center'><Link to={'/'}>logo</Link></div>
+    <div className=' z-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]  relative flex justify-between items-center md:px-5 md:py-5 py-4 px-2 md:mt-10 bg-white md:mx-20'>
+  <div className='text-[16px]  md:text-2xl  flex justify-center items-center'><Link to={'/'}>WOOF PET STORE</Link></div>
   <div>
-    <ul className='flex justify-between items-center gap-4'>
+    <ul className='md:flex hidden justify-between items-center gap-4'>
     <Link to={'/'}><li>Home</li></Link> 
     <li onClick={()=>{
       navigate('/')
@@ -64,7 +64,7 @@ export const Navbar = ({searchScroll}) => {
       }} className='cursor-pointer'>Products</li>
     <li>Contact</li>
   
-      <li>Blog</li>
+      <li onClick={()=>blogScroll() } className='cursor-pointer'>Blog</li>
     </ul>
   </div>
   <div>
@@ -130,17 +130,17 @@ export const Navbar = ({searchScroll}) => {
     </ul>
   </div>
     </div>
-    <div className={`flex fixed top-0 left-0   z-40 py-6 md:py-6  font-bold text-[16px] md:text-xl bg-white text-gray-600 items-center px-4 transition-all duration-1000 w-full md:px-32 justify-between shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${showNav?" translate-y-0 h-27 ":"h-0 -translate-y-44  overflow-hidden"}`}>
-  <div className='text-4xl flex justify-center items-center'><Link to={'/'}>logo</Link></div>
+    <div className={`flex fixed top-0 left-0   z-40 py-4 md:py-6  font-bold text-[16px] md:text-xl bg-white text-gray-600 items-center px-2 transition-all duration-1000 w-full md:px-32 justify-between shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ${showNav?" translate-y-0 h-27 ":"h-0 -translate-y-44  overflow-hidden"}`}>
+    <div className='text-[16px]  md:text-2xl flex justify-center items-center'><Link to={'/'}>WOOF PET STORE</Link></div>
   <div>
-    <ul className='flex justify-between items-center gap-4'>
+    <ul className='md:flex hidden justify-between items-center gap-4'>
      <Link to={'/'}><li>Home</li></Link> 
      <li onClick={()=>{
       navigate('/')
       searchScroll()
       }} className='cursor-pointer'>Products</li>
       <li>Contact</li>
-      <li>Blog</li>
+      <li onClick={()=>blogScroll() } className='cursor-pointer'>Blog</li>
     </ul>
   </div>
   <div>

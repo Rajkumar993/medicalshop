@@ -10,11 +10,12 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { ProdutsCard } from './ProdutsCard';
 import { TopProduct } from './TopProduct';
+import { Blog } from '../blog/Blog';
 
-export const Products = ({searchRef}) => {
+export const Products = ({searchRef,blogRef}) => {
   const {authState,userId}=useSelector(state=>state.auth) 
   const {cat}=useSelector(state=>state.category) 
-  
+  const[margin,setmargin]=useState(true)
   const[products,setProducts]=useState([]);
   const [view, setView] = React.useState('list');
 const[grid,setGrid]=useState(false)
@@ -47,12 +48,17 @@ useEffect(()=>{
 if(cat){
 
   setProducts(data.products.filter(pro=>pro.name.toLowerCase().includes(cat.toLowerCase())))
+
 }
 
 },[cat,data])
 useEffect(()=>{
 if(cat=="All Products" &&data){
+  setmargin(true)
   setProducts(data.products); 
+
+}else{
+  setmargin(false)
 }
 },[cat,data])
 useEffect(()=>{
@@ -63,8 +69,10 @@ useEffect(()=>{
 useEffect(()=>{
   if(products==''){
     setNoProduct(true)
+    setmargin(true)
   }else
   setNoProduct(false)
+  
 },[products])
 
   if(loading) {
@@ -79,9 +87,9 @@ useEffect(()=>{
    }
   return (
     <>
-    <div ref={searchRef} className='w-full pt-10 pl-32 '>
+    <div ref={searchRef} className='w-full pt-10 pl-32  '>
      <div className='flex items-center gap-80  relative'>
-     <ToggleButtonGroup
+  <p className='hidden md:flex'>   <ToggleButtonGroup
       orientation="horizontal"
       value={view}
       exclusive
@@ -103,13 +111,13 @@ useEffect(()=>{
         <FaList  className='text-2xl' />
       </ToggleButton>
  
-    </ToggleButtonGroup>
-    <p className='text-5xl'>PRODUCTS</p>
-    <TopProduct/>
+    </ToggleButtonGroup></p>
+    <p className='md:text-5xl text-2xl'>PRODUCTS</p>
+    <p className='hidden md:block'><TopProduct /></p>
      </div>
      
     </div>
-    <div className={`grid md:mr-80 md:ml-32  mt-10 grid-cols-1 md:grid-cols-2    gap-7 items-center  place-items-center ${grid?"xl:grid-cols-1":"xl:grid-cols-3"}`}>
+    <div className={`grid md:mr-80 md:ml-32 ${grid?"mb-0":""} ${margin?"mb-0":"mb-[400px]"} mt-10 grid-cols-1 md:grid-cols-2     gap-7 items-center  place-items-center ${grid?"xl:grid-cols-1":"xl:grid-cols-3"}`}>
     {
       products.map(product=>(
            <ProdutsCard key={product.id} grid={grid} product={product}/>
@@ -118,7 +126,8 @@ useEffect(()=>{
       ))
     }
     </div>
-   {noProduct&& <p className='text-center text-2xl text-red-500'>Sorry No Such Products</p>}
+   {noProduct&& <p className='text-center text-2xl text-red-500 mb-[700px]'>Sorry No Such Products</p>}
+   <p className='hidden md:block'><Blog blogRef={blogRef} /></p>
     </>
   )
 }

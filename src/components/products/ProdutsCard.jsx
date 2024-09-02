@@ -10,7 +10,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import { ADD_TO_CART } from '../../apollo/Mutation';
+import { ADD_TO_CART, ADD_TO_WHISHLIST } from '../../apollo/Mutation';
 import IconButton from '@mui/material/IconButton';
 
 
@@ -19,7 +19,7 @@ import Stack from '@mui/material/Stack';
 import { useMutation } from '@apollo/client';
 import { useSelector } from 'react-redux';
 import { SHOP_ID } from '../../env';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -33,8 +33,10 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export const ProdutsCard = ({product,grid}) => {
   const [hovered, setHovered] = useState(false);
   const {authState,userId}=useSelector(state=>state.auth) 
+  const[mutateWishlist,{ loading:wishLoading}] = useMutation(ADD_TO_WHISHLIST)
   const[heart,setHeart]=useState(false)
-  const [open, setOpen] = React.useState(false);
+  const navigate=useNavigate() 
+   const [open, setOpen] = React.useState(false);
   const [mutateFunction, { data:Cartdata, loading:Cartloading, error:Carterror }] = useMutation(ADD_TO_CART)
  const[qty,setQty]=useState(1)
   const handleClickOpen = () => {
@@ -47,19 +49,22 @@ export const ProdutsCard = ({product,grid}) => {
     <>
 
 <Card 
-className='hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]'
+className='  hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]'
     sx={{  width: grid?650:250, position: 'relative' }}
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
   >
     <CardActionArea sx={{display:grid?"flex":"", justifyContent:grid?"start":"",alignItems:grid&&"start", gap:grid?2:null}}>
+     
       <CardMedia
+      onClick={()=>navigate(`product/${product.id}`)}
       className='hover:scale-105 transition-all duration-500 ease-in'
         component="img"
         sx={{  height: 250, width:250 ,objectFit:"cover"   }}
         image={`https://s3.ap-south-1.amazonaws.com/business.strackit.com/${product.featureImage}`}
         alt="medical"
       />
+     
       <CardContent >
         <Typography gutterBottom variant="h5"  component="div">
          <p className='text-[16px] mb-2'>{product.name}</p> 
@@ -105,7 +110,27 @@ className='hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,1
         }} />
 
       
-       {heart?<FaHeart onClick={()=>setHeart(true)} className='text-2xl text-[#1d7264]  cursor-pointer ' />:<FaRegHeart onClick={()=>setHeart(!heart)} className='text-2xl  hover:text-[#1d7264]  cursor-pointer ' />} 
+       {heart?<FaHeart onClick={()=>setHeart(true)} className='text-2xl text-[#1d7264]  cursor-pointer ' />:<FaRegHeart onClick={()=>{
+            if (!document.cookie) {
+        window.alert('Login to Continue');
+        return;
+      }
+      setHeart(!heart)
+      mutateWishlist({
+        variables: {
+          userId,
+          productId: Number(product.id),
+          shopId: SHOP_ID,
+          delete: false,
+        },
+      }).then(res=>(
+        alert("Added To Wishlist!")
+      )).catch(res=>(
+        alert("Item Already Exist!")
+      ))
+      
+      
+      }} className='text-2xl  hover:text-[#1d7264]  cursor-pointer ' />} 
       </Box>: null}
         </Typography>
       </CardContent>
@@ -147,7 +172,27 @@ className='hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,1
            alert("Item Already Exist!")
           ))
         }} />
-       {heart?<FaHeart onClick={()=>setHeart(true)} className='text-2xl text-[#1d7264]  cursor-pointer ' />:<FaRegHeart onClick={()=>setHeart(!heart)} className='text-2xl  hover:text-[#1d7264]  cursor-pointer ' />} 
+       {heart?<FaHeart onClick={()=>setHeart(true)} className='text-2xl text-[#1d7264]  cursor-pointer ' />:<FaRegHeart onClick={()=>{
+            if (!document.cookie) {
+        window.alert('Login to Continue');
+        return;
+      }
+      setHeart(!heart)
+      mutateWishlist({
+        variables: {
+          userId,
+          productId: Number(product.id),
+          shopId: SHOP_ID,
+          delete: false,
+        },
+      }).then(res=>(
+        alert("Added To Wishlist!")
+      )).catch(res=>(
+        alert("Item Already Exist!")
+      ))
+      
+      
+      }} className='text-2xl  hover:text-[#1d7264]  cursor-pointer ' />} 
       </Box>
     )}
   </Card>
@@ -177,9 +222,9 @@ className='hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,1
          
         </IconButton>
         <DialogContent dividers sx={{display:"flex", gap:4}}>
-          <Typography gutterBottom>
-          <img className=' h-[250px]  object-cover' src={`https://s3.ap-south-1.amazonaws.com/business.strackit.com/${product.featureImage}`} alt="" />
-          </Typography>
+        <Link to={`/product/${product.id}`}> <Typography gutterBottom>
+          <img className=' h-[250px]   object-cover' src={`https://s3.ap-south-1.amazonaws.com/business.strackit.com/${product.featureImage}`} alt="" />
+          </Typography></Link>
           
           <Typography gutterBottom sx={{display:"flex", flexDirection:"column",gap:2, padding:"0px 20px 0px 20px"}}>
             <p className='text-xl w-full'>{product.name}</p>
@@ -222,7 +267,27 @@ className='hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,1
       </Button>
     </Stack>
             </div>
-            <p className='flex gap-2 justify-center items-center cursor-pointer'><FaRegHeart/> Add To Wishlist</p>
+            <p className='flex gap-2 justify-center items-center cursor-pointer'><FaRegHeart onClick={()=>{
+            if (!document.cookie) {
+        window.alert('Login to Continue');
+        return;
+      }
+      setHeart(!heart)
+      mutateWishlist({
+        variables: {
+          userId,
+          productId: Number(product.id),
+          shopId: SHOP_ID,
+          delete: false,
+        },
+      }).then(res=>(
+        alert("Added To Wishlist!")
+      )).catch(res=>(
+        alert("Item Already Exist!")
+      ))
+      
+      
+      }}/> Add To Wishlist</p>
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -231,6 +296,7 @@ className='hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,1
           </Button>
         </DialogActions>
       </BootstrapDialog>
+
     </>
    
   )

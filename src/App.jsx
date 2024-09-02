@@ -10,25 +10,34 @@ import { Home } from './components/home/Home';
 import { WishList } from './components/wishlist/WishList';
 
 import { Carts } from './components/cartItems/Carts';
+import { ProdutsCard } from './components/products/ProdutsCard';
+import { SingleProduct } from './components/products/SingleProduct';
+import Footer from './components/footer/Footer';
+import { Blog2 } from './components/blog/Blog2';
 
 
 function App() {
   const searchRef=useRef(null)
-
+ const blogRef=useRef(null)
   const searchScroll=()=>{
     searchRef.current.scrollIntoView({behavior:"smooth"})
   }
-
+const blogScroll=()=>{
+  blogRef.current.scrollIntoView({behavior:"smooth"})
+}
   return (
     <>
-    <div className=''>
+    <div className='overflow-x-hidden'>
     <BrowserRouter>
-     <Navbar searchScroll={searchScroll}/>
+     <Navbar searchScroll={searchScroll } blogScroll={blogScroll}/>
     <Routes>
-      <Route path='/' element={<Home searchRef={searchRef}/>}/>
+      <Route path='/' element={<Home searchRef={searchRef} blogRef={blogRef}/>}/>
       <Route path='/wishlist' element={<WishList/>}/>
       <Route path='/cart' element={<Carts/>}/>
+      <Route path='/product/:id' element={<SingleProduct/>}/>
+      <Route path='/blog/:id' element={<Blog2/>}/>
     </Routes>
+    <Footer/>
   </BrowserRouter>
     </div>
 
