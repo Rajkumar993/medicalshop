@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../feature/Auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { addCat } from '../../feature/CatSlice';
-export const Navbar = ({searchScroll,blogScroll}) => {
+export const Navbar = ({searchScroll,blogScroll,footerScroll}) => {
   const[showNav,setShowNav]=useState(false)
   const[showSearch,setShowSearch]=useState(false)
   const[showLogin,setShowLogin]=useState(false)
@@ -62,7 +62,7 @@ export const Navbar = ({searchScroll,blogScroll}) => {
       navigate('/')
       searchScroll()
       }} className='cursor-pointer'>Products</li>
-    <li>Contact</li>
+         <li className='cursor-pointer' onClick={()=>footerScroll()}>Contact</li>
   
       <li onClick={()=>blogScroll() } className='cursor-pointer'>Blog</li>
     </ul>
@@ -139,7 +139,7 @@ export const Navbar = ({searchScroll,blogScroll}) => {
       navigate('/')
       searchScroll()
       }} className='cursor-pointer'>Products</li>
-      <li>Contact</li>
+      <li className='cursor-pointer' onClick={()=>footerScroll()}>Contact</li>
       <li onClick={()=>blogScroll() } className='cursor-pointer'>Blog</li>
     </ul>
   </div>

@@ -7,7 +7,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { PiCity } from "react-icons/pi";
 import { TbMapPinCode } from "react-icons/tb";
-const Footer = () => {
+const Footer = ({FooterRef}) => {
   const {userId}=useSelector(state=>state.auth)
   const[add,setAdd]=useState([])
   const {data,loading,error}=useQuery(GET_SHOP_ADDRESS,{
@@ -26,7 +26,7 @@ const Footer = () => {
   },[data])
   
   return (
-    <div className='w-screen bg-gray-200'>
+    <div ref={FooterRef} className='w-screen bg-gray-200 mt-20'>
        <div className='py-10 flex flex-col  px-10 gap-10 justify-center'>
        <ul className='flex  flex-col items-center gap-3'>
  {add.map(ad=>{

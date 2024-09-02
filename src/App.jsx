@@ -19,17 +19,21 @@ import { Blog2 } from './components/blog/Blog2';
 function App() {
   const searchRef=useRef(null)
  const blogRef=useRef(null)
+ const FooterRef=useRef(null)
   const searchScroll=()=>{
     searchRef.current.scrollIntoView({behavior:"smooth"})
   }
 const blogScroll=()=>{
   blogRef.current.scrollIntoView({behavior:"smooth"})
 }
+const footerScroll=()=>{
+  FooterRef.current.scrollIntoView({behavior:"smooth"})
+}
   return (
     <>
     <div className='overflow-x-hidden'>
     <BrowserRouter>
-     <Navbar searchScroll={searchScroll } blogScroll={blogScroll}/>
+     <Navbar searchScroll={searchScroll } blogScroll={blogScroll} footerScroll={footerScroll}/>
     <Routes>
       <Route path='/' element={<Home searchRef={searchRef} blogRef={blogRef}/>}/>
       <Route path='/wishlist' element={<WishList/>}/>
@@ -37,7 +41,7 @@ const blogScroll=()=>{
       <Route path='/product/:id' element={<SingleProduct/>}/>
       <Route path='/blog/:id' element={<Blog2/>}/>
     </Routes>
-    <Footer/>
+    <Footer FooterRef={FooterRef}/>
   </BrowserRouter>
     </div>
 
