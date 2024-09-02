@@ -83,3 +83,15 @@ query TopProducts($filter: top) {
     prize
   }
 }`
+export const GET_SHOP_ADDRESS=gql`
+query Shop($filter: ShopInput) {
+  shop(filter: $filter) {
+    address
+    city
+    country
+    pincode
+    phone
+    name
+    deliveryCharge
+  }
+}`
