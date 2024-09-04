@@ -25,23 +25,23 @@ export const Blog = ({blogRef}) => {
 
  },[data])
   return (
-    <div className='mt-20 ' ref={blogRef}>
-<p className='text-center text-5xl' >BLOG</p>
+    <div className='mt-20  px-10' ref={blogRef}>
+<p className='text-center text-5xl py-10 font-semibold' > Latest Blogs</p>
 <Glider
-  className="glider-container"
-  draggable
+  className="glider-container "
+  
   hasDots
   slidesToShow={3}
   skipTrack
 >
-  <div className="custom-track">
+  <div className="custom-track ">
     {blog.map((b)=>{
-      return <div className='px-10 py-10 flex flex-col gap-10 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]'>
-        <div className='w-full'>
+      return <div className='m-4  flex flex-col gap-10 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]'>
+        <div className='w-full '>
         <img className=' object-cover ' src={`https://s3.ap-south-1.amazonaws.com/business.strackit.com/${b.image}`} alt="" />
         </div>
-        <div className='border-b py-4'><p className='text-center text-2xl cursor-pointer hover:text-[#1d7264]'>{b.title}</p></div>
-        <div className='flex justify-between'>
+        <div className='border-b py-4 '><p className='text-center text-2xl cursor-pointer hover:text-[#1d7264]' onClick={()=>navigate(`/blog/${b.id}`)}>{b.title}</p></div>
+        <div className='flex justify-between px-5 pb-10 '>
         <p className='font-bold text-[17px] flex items-center gap-2'><MdOutlineDateRange className='text-[#1d7264]'/>{new Date(b.timestamp).toLocaleString()}</p>
         <p className='font-bold text-[#1d7264] text-[17px] cursor-pointer' onClick={()=>navigate(`/blog/${b.id}`)}>READ MORE</p>
         </div>

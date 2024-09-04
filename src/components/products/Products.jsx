@@ -88,7 +88,7 @@ useEffect(()=>{
    }
   return (
     <>
-    <div ref={searchRef} className='w-full pt-10 pl-32  '>
+    <div  className='w-full pt-10 pl-32  '>
      <div className='flex items-center gap-80  relative'>
   <p className='hidden md:flex'>   <ToggleButtonGroup
       orientation="horizontal"
@@ -113,7 +113,7 @@ useEffect(()=>{
       </ToggleButton>
  
     </ToggleButtonGroup></p>
-    <p className='md:text-5xl text-2xl'>PRODUCTS</p>
+    <p className='md:text-5xl text-2xl font-semibold' ref={searchRef}>PRODUCTS</p>
     <p className='hidden md:block'><TopProduct /></p>
      </div>
      

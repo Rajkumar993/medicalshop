@@ -20,6 +20,7 @@ function App() {
   const searchRef=useRef(null)
  const blogRef=useRef(null)
  const FooterRef=useRef(null)
+ 
   const searchScroll=()=>{
     searchRef.current.scrollIntoView({behavior:"smooth"})
   }

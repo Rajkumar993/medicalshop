@@ -11,6 +11,7 @@ import { SHOP_ID } from '../../env';
 import { TopProduct } from './TopProduct';
 import { FaStar } from "react-icons/fa";
 import { Button } from '@mui/material';
+import Cookies from 'js-cookie'
 export const SingleProduct = () => {
   const {authState,userId}=useSelector(state=>state.auth)
   const [product,setProduct]=useState([])
@@ -54,7 +55,7 @@ export const SingleProduct = () => {
     <div className='mt-20 mx-32 '>
     {product.map(pro=>(
 <>
-<div className='flex flex-col md:flex-row md:gap-4   relative'>
+<div className='flex flex-col md:flex-row md:gap-4  mb-32  relative'>
 <div className='w-full md:w-1/3 flex  relative justify-center'>
      <img className='w-96 h-96 object-cover' src={`https://s3.ap-south-1.amazonaws.com/business.strackit.com/${pro.featureImage}`} alt="" />
     </div>
@@ -73,7 +74,7 @@ export const SingleProduct = () => {
   </div> 
  <div className='flex w-full gap-3'>
  <Button variant='outlined' color='success' endIcon={<FaShoppingCart />} onClick={()=>{
-   if(document.cookie == ''){
+   if(!Cookies.get('ualum')){
     window.alert('Login to Continue');
     return;
   }
@@ -89,7 +90,7 @@ export const SingleProduct = () => {
 
  }} >Add To Cart</Button>     
  <Button variant='outlined' onClick={()=>{
-    if (!document.cookie) {
+    if (!Cookies.get('ualum')) {
       window.alert('Login to Continue');
       return;
     }
@@ -104,7 +105,7 @@ export const SingleProduct = () => {
  }} endIcon={<FaRegHeart/>}>Add To WhishList </Button>     
  </div>
  </div>
- <p className='absolute right-0 -top-[100px] '>
+ <p onClick={()=>window.location.reload()} className='absolute right-0 -top-[100px] '>
   <TopProduct />
   </p>
   

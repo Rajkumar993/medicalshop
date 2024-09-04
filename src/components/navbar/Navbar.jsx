@@ -9,7 +9,7 @@ import HOST from '../../env';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { login } from '../../feature/Auth';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { addCat } from '../../feature/CatSlice';
 export const Navbar = ({searchScroll,blogScroll,footerScroll}) => {
   const[showNav,setShowNav]=useState(false)
@@ -17,7 +17,14 @@ export const Navbar = ({searchScroll,blogScroll,footerScroll}) => {
   const[showLogin,setShowLogin]=useState(false)
   const [search,setSearch]=useState('')
   const navigate=useNavigate('')
+  const location = useLocation();
   const dispatch=useDispatch()
+const handlenavigate=()=>{
+  
+    navigate('/')
+    setTimeout(()=>{searchScroll()},500)
+
+}
   useEffect(()=>{
     const handleScroll=()=>{
       if(window.scrollY>150){
@@ -37,7 +44,7 @@ export const Navbar = ({searchScroll,blogScroll,footerScroll}) => {
   }
   const logOut = (e) => {
     Cookies.remove('ualum', { path: '/' });
-    Cookies.remove('_ga', { path: '/' });
+    // Cookies.remove('_ga', { path: '/' });
        window.location.href = HOST;
  };
   useEffect(() => {
@@ -58,9 +65,9 @@ export const Navbar = ({searchScroll,blogScroll,footerScroll}) => {
   <div>
     <ul className='md:flex hidden justify-between items-center gap-4'>
     <Link to={'/'}><li>Home</li></Link> 
-    <li onClick={()=>{
-      navigate('/')
-      searchScroll()
+    <li onClick={(e)=>{
+     handlenavigate()
+      
       }} className='cursor-pointer'>Products</li>
          <li className='cursor-pointer' onClick={()=>footerScroll()}>Contact</li>
   
@@ -103,6 +110,7 @@ export const Navbar = ({searchScroll,blogScroll,footerScroll}) => {
          <li className='cursor-pointer' onClick={()=>{
           if(Cookies.get('ualum')){
             logOut()
+            return
           }else{
             
             handleLogin()
@@ -119,7 +127,7 @@ export const Navbar = ({searchScroll,blogScroll,footerScroll}) => {
          }}>WishList</li>
         </ul>}
         </li>
-        <Link to={`${document.cookie?'/cart':'/'}`}><li onClick={()=>{
+        <Link to={`${Cookies.get('ualum')?'/cart':'/'}`}><li onClick={()=>{
           if(Cookies.get('ualum')){
             navigate('/cart')
           }else{
@@ -136,8 +144,7 @@ export const Navbar = ({searchScroll,blogScroll,footerScroll}) => {
     <ul className='md:flex hidden justify-between items-center gap-4'>
      <Link to={'/'}><li>Home</li></Link> 
      <li onClick={()=>{
-      navigate('/')
-      searchScroll()
+     handlenavigate()
       }} className='cursor-pointer'>Products</li>
       <li className='cursor-pointer' onClick={()=>footerScroll()}>Contact</li>
       <li onClick={()=>blogScroll() } className='cursor-pointer'>Blog</li>
@@ -183,10 +190,10 @@ export const Navbar = ({searchScroll,blogScroll,footerScroll}) => {
             handleLogin()
           }
          
-          }}> {document.cookie?"Logout":"Login"}</li>
+          }}> {Cookies.get('ualum')?"Logout":"Login"}</li>
          <li className='cursor-pointer' onClick={()=>handleLogin()}>Register</li>
          <li className='cursor-pointer' onClick={()=>{
-          if(document.cookie){
+          if(Cookies.get('ualum')){
   navigate('/wishlist')
           }else{
             alert('please login to continue')
@@ -194,7 +201,7 @@ export const Navbar = ({searchScroll,blogScroll,footerScroll}) => {
          }}>WishList</li>
         </ul>}
         </li>
-        <Link to={`${document.cookie?'/cart':'/'}`}><li onClick={()=>{
+        <Link to={`${Cookies.get('ualum')?'/cart':'/'}`}><li onClick={()=>{
           if(Cookies.get('ualum')){
             navigate('/cart')
           }else{

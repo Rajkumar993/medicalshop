@@ -12,7 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { ADD_TO_CART, ADD_TO_WHISHLIST } from '../../apollo/Mutation';
 import IconButton from '@mui/material/IconButton';
-
+import Cookies from 'js-cookie'
 
 
 import Stack from '@mui/material/Stack';
@@ -91,7 +91,7 @@ className='  hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17
         <FaEye className='text-2xl  hover:text-[#1d7264] cursor-pointer  ' onClick={handleClickOpen} />
        
         <FaShoppingCart className='text-2xl  hover:text-[#1d7264] cursor-pointer ' onClick={()=>{
-          if(document.cookie == ''){
+          if(!Cookies.get('ualum')){
             window.alert('Login to Continue');
             return;
           }
@@ -111,7 +111,7 @@ className='  hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17
 
       
        {heart?<FaHeart onClick={()=>setHeart(true)} className='text-2xl text-[#1d7264]  cursor-pointer ' />:<FaRegHeart onClick={()=>{
-            if (!document.cookie) {
+            if (!Cookies.get('ualum')) {
         window.alert('Login to Continue');
         return;
       }
@@ -155,7 +155,7 @@ className='  hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17
       >
         <FaEye className='text-2xl  hover:text-[#1d7264] cursor-pointer  ' onClick={handleClickOpen} />
         <FaShoppingCart className='text-2xl  hover:text-[#1d7264] cursor-pointer 'onClick={()=>{
-          if(document.cookie == ''){
+          if(!Cookies.get('ualum')){
             window.alert('Login to Continue');
             return;
           }
@@ -173,7 +173,7 @@ className='  hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17
           ))
         }} />
        {heart?<FaHeart onClick={()=>setHeart(true)} className='text-2xl text-[#1d7264]  cursor-pointer ' />:<FaRegHeart onClick={()=>{
-            if (!document.cookie) {
+            if (!Cookies.get('ualum')) {
         window.alert('Login to Continue');
         return;
       }
@@ -246,7 +246,7 @@ className='  hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17
               <Stack direction="row" spacing={2}>
       
              <Button variant="contained" color='success' sx={{width:200, height:50}} startIcon={<FaShoppingCart />} onClick={()=>{
-          if(document.cookie == ''){
+          if(!Cookies.get('ualum')){
             window.alert('Login to Continue');
             return;
           }
@@ -268,7 +268,7 @@ className='  hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17
     </Stack>
             </div>
             <p className='flex gap-2 justify-center items-center cursor-pointer'><FaRegHeart onClick={()=>{
-            if (!document.cookie) {
+            if (!Cookies.get('ualum')) {
         window.alert('Login to Continue');
         return;
       }

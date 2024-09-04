@@ -32,8 +32,8 @@ export const Banner = () => {
   return (
     <div className='mx-10 absolute top-24 md:-top-32 left-0 right-0'>
       <Glider
-  className="glider-container"
-  draggable
+  className="glider-container "
+
   hasDots
   hasArrows
   slidesToShow={1}

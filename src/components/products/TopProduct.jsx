@@ -9,12 +9,12 @@ import ListItem from '@mui/joy/ListItem';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import ListItemButton from '@mui/joy/ListItemButton';
 import Typography from '@mui/joy/Typography';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 export const TopProduct = () => {
   const{userId}=useSelector(state=>state.auth)
-
+const navigate =useNavigate()
   const[topProduct,setTopProduct]=useState([])
-  const{data,loading,error}=useQuery(GET_TOP_PRODUCT,{
+  const{data,loading,error,refetch}=useQuery(GET_TOP_PRODUCT,{
     variables:{
       filter: {
     shopId: SHOP_ID,
@@ -63,6 +63,7 @@ export const TopProduct = () => {
 
         </Typography>
         <List
+       
           size={size}
           variant="outlined"
           sx={{ width: 300, borderRadius: 'sm' }}
@@ -74,7 +75,11 @@ export const TopProduct = () => {
             </Typography>
           </ListItem>
           { topProduct.map(pro=>{
-           return <ListItem>
+           return <ListItem  onClick={()=>{
+             
+            navigate(`/product/${pro.id}`)
+            
+           }}>
             <Typography  className='border-b py-4 w-full'>
           <p className='flex  gap-4 items-center'>
           <img  className='w-20 h-20 object-cover' src={`https://s3.ap-south-1.amazonaws.com/business.strackit.com/${pro.featureImage}`} alt="" />

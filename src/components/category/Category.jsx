@@ -30,9 +30,10 @@ export const Category = () => {
     <ul className=' flex justify-center mx-4 items-center'>
       
       <Glider
-  className="glider-container"
+      
+  className="glider-container "
   hasArrows
-
+  
   slidesToShow={1}
   slidesToScroll={1}
   responsive={[
@@ -43,7 +44,7 @@ export const Category = () => {
         slidesToScroll: "auto",
         itemWidth: 150,
         duration: 0.25,
-       
+        
       },
     },
   ]}

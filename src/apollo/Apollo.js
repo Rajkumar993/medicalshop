@@ -80,6 +80,7 @@ query TopProducts($filter: top) {
     discount
     featureImage
     name
+    id
     prize
   }
 }`
